@@ -34,6 +34,7 @@ jobs:
         role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
         role-duration-seconds: 900
         role-session-name: GithubActions
+        role-skip-session-tagging: true
 
     - name: Copy files to the S3 Bucket with the AWS CLI
       run: |
