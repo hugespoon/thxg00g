@@ -21,19 +21,18 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
-      - name: S3 Sync
-        if: github.ref == 'refs/heads/master'
-        # You may pin to the exact commit or the version.
-        # uses: jakejarvis/s3-sync-action@be0c4ab89158cac4278689ebedd8407dd5f35a83
-        uses: jakejarvis/s3-sync-action@v0.5.1
-        with:
-          args: --acl public-read --delete --exclude '.git/*' --exclude '.github/*'
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: AKIAR7XRE6YGTL5MXFND
-          AWS_SECRET_ACCESS_KEY: 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
-          # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-west-2'   # optional: defaults to us-east-1
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-2
+
+    - name: Copy files to the S3 Bucket with the AWS CLI
+      run: |
+        aws s3 sync . s3://$AWS_S3_BUCKET --acl public-read --delete --exclude '.git/*' --exclude '.github/*'
+      env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
