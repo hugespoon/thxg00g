@@ -32,7 +32,7 @@ jobs:
         aws-region: us-west-2
         role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
         role-external-id: ${{ secrets.AWS_ROLE_EXTERNAL_ID }}
-        role-duration-seconds: 300
+        role-duration-seconds: 900
         role-session-name: GithubActions
 
     - name: Copy files to the S3 Bucket with the AWS CLI
