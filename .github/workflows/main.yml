@@ -29,7 +29,7 @@ jobs:
         # uses: jakejarvis/s3-sync-action@be0c4ab89158cac4278689ebedd8407dd5f35a83
         uses: jakejarvis/s3-sync-action@v0.5.1
         with:
-          args: --acl public-read --delete --exclude '.git/*' --exclude '.github/*'
+          # args: --acl public-read --delete --exclude '.git/*' --exclude '.github/*'
           entrypoint: "env"
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
